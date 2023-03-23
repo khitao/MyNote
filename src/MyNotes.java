@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class MyNotes {
     private static final String NOTES_FILE = "notes.txt";
     private static final String DEFAULT_NOTE = "Первая заметка с текстом.";
-    private BufferedReader reader = null;
-    private BufferedWriter writer = null;
+    private static BufferedReader reader = null;
+    private static BufferedWriter writer = null;
 
     private static final List<String> notes = new ArrayList<>();
 
@@ -22,6 +22,9 @@ public class MyNotes {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         MyNotes myNotes = new MyNotes();
+        creatingNoteFileWithFirstNote();
+
+
         int choice;
 
         boolean flag = true;
@@ -79,11 +82,21 @@ public class MyNotes {
 
     public static void clearScreen() {
         //Очистка консоли
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+       /* System.out.print("\033[H\033[2J");
+        System.out.flush();*/
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            System.out.println("Ошибка при очистке консоли: " + e);
+        }
     }
 
-    public MyNotes() {
+    public static void creatingNoteFileWithFirstNote() {
         // Создание файла заметок с первой заметкой (по умолчанию), если файл не существует
         try {
 
@@ -353,7 +366,6 @@ public class MyNotes {
             }
         }
     }
-
 
 
 }

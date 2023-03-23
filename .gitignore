@@ -1,0 +1,8 @@
+*.log
+.DS_Store
+.AppleDouble
+.LSOverride
+.bash_history
+.zsh_history
+.txt
+.idea/
