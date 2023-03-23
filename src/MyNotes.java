@@ -1,103 +1,25 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
+
+
+import static helper.HelperMethod.clearScreen;
+import static helper.HelperVariables.*;
 
 public class MyNotes {
     private static final String NOTES_FILE = "notes.txt";
-    private static final String DEFAULT_NOTE = "Первая заметка с текстом.";
+
     private static BufferedReader reader = null;
     private static BufferedWriter writer = null;
 
-    private static final List<String> notes = new ArrayList<>();
+    protected static final List<String> notes = new ArrayList<>();
 
-    // Символы управления цветом ANSI для установки цвета
-    private static final String redColor = "\u001B[31m";
-    private static final String lavenderColor = "\u001B[95m";
-    private static final String cyanColor = "\u001B[36m";
-    private static final String resetColor = "\u001B[0m";
-
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        MyNotes myNotes = new MyNotes();
-        creatingNoteFileWithFirstNote();
-
-
-        int choice;
-
-        boolean flag = true;
-
-        clearScreen();
-
-        while (flag) {
-            myNotes.readOutNoteAndAddToArray();
-            System.out.println("Меню:");
-            System.out.println("1. Добавить заметку");
-            System.out.println("2. Редактировать заметку");
-            System.out.println("3. Удалить заметку");
-            System.out.println("0. Закрыть приложение");
-
-            System.out.print("Выберите пункт меню: ");
-            try {
-                choice = scanner.nextInt();
-                scanner.nextLine();
-
-                switch (choice) {
-                    case 1:
-                        clearScreen();
-                        myNotes.addNote();
-                        clearScreen();
-                        break;
-                    case 2:
-                        clearScreen();
-                        myNotes.changeNote();
-                        if (notes.size() != 0)
-                            clearScreen();
-                        break;
-                    case 3:
-                        clearScreen();
-                        myNotes.deleteNote();
-                        if (notes.size() != 0)
-                            clearScreen();
-                        break;
-                    case 0:
-                        clearScreen();
-                        System.out.println("\nСеанс окончен.\n");
-                        flag = false;
-                        break;
-                    default:
-                        clearScreen();
-                        System.out.println(redColor + "\nВведенное вами число не соответствует ни одному пункту меню. Попробуйте еще раз.\n" + resetColor);
-                        break;
-                }
-            } catch (InputMismatchException e) {
-                clearScreen();
-                System.out.println(redColor + "\nОшибка ввода: вы вводите не число.\n" + resetColor);
-                scanner.nextLine(); // очистка буфера ввода
-            }
-        }
-    }
-
-    public static void clearScreen() {
-        //Очистка консоли
-       /* System.out.print("\033[H\033[2J");
-        System.out.flush();*/
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
-            }
-        } catch (Exception e) {
-            System.out.println("Ошибка при очистке консоли: " + e);
-        }
-    }
 
     public static void creatingNoteFileWithFirstNote() {
         // Создание файла заметок с первой заметкой (по умолчанию), если файл не существует
+
+        String DEFAULT_NOTE = "Первая заметка с текстом.";
+
         try {
 
             reader = new BufferedReader(new FileReader(NOTES_FILE));
@@ -133,7 +55,7 @@ public class MyNotes {
     }
 
 
-    private void readOutNoteAndAddToArray() {
+    protected void readOutNoteAndAddToArray() {
         // Чтение заметок из файла, вывод их на экран и добавление в массив
         try {
 
@@ -169,7 +91,7 @@ public class MyNotes {
         }
     }
 
-    private void writeChangesToFile(BufferedWriter writer) throws IOException {
+    protected void writeChangesToFile(BufferedWriter writer) throws IOException {
         // Запись изменений в файл
         for (String note : notes) {
             writer.write(note);
@@ -179,7 +101,7 @@ public class MyNotes {
     }
 
 
-    private void deleteNote() {
+    protected void deleteNote() {
         // Удаление заметок и запись их в файл
         try {
             readOutNoteAndAddToArray();
@@ -263,7 +185,7 @@ public class MyNotes {
         }
     }
 
-    private void addNote() {
+    protected void addNote() {
         // Редактирование заметок и запись их в файл
         try {
             readOutNoteAndAddToArray();
@@ -297,7 +219,7 @@ public class MyNotes {
         }
     }
 
-    private void changeNote() {
+    protected void changeNote() {
         // Редактирование заметок и запись их в файл
         try {
             readOutNoteAndAddToArray();
