@@ -15,7 +15,7 @@ public class MyNotes {
     protected static final List<String> notes = new ArrayList<>();
 
 
-    public static void creatingNoteFileWithFirstNote() {
+    protected static void creatingNoteFileWithFirstNote() {
         // Создание файла заметок с первой заметкой (по умолчанию), если файл не существует
 
         String DEFAULT_NOTE = "Первая заметка с текстом.";
